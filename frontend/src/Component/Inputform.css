@@ -1,0 +1,10 @@
+.container{
+    height:100vh;
+    background-color:red;
+}
+.container div {
+    background-color: yellow;
+}
+.container div input {
+    width:70%;
+}

@@ -27,8 +27,8 @@ app.post("/insert-dataOne", async (req, res) => {
                 message: "number already exist"
             })
         }
-        let insert_data = { name, email, number, dob, age };
-        const new_user = new todo_model(insert_data);
+        let details = { name, email, number, dob, age };
+        const new_user = new todo_model(details);
         await new_user.save();
         if (new_user) {
             return res.status(200).json({
@@ -46,7 +46,8 @@ app.post("/insert-dataOne", async (req, res) => {
     catch (err) {
         console.log("internal server error (server side read-dataAll)");
         return res.status(500).json({
-            err: err
+            err: err,
+            message: err.message
         })
     }
 })
@@ -69,7 +70,8 @@ app.get("/read-dataAll", async (req, res) => {
     catch (err) {
         console.log("internal server error (server side read-dataAll)");
         return res.status(500).json({
-            err: err
+            err: err,
+            message: err.message
         })
     }
 })
@@ -77,19 +79,18 @@ app.get("/read-dataAll", async (req, res) => {
 app.delete("/delete-dataOne/:id", async (req, res) => {
     try {
         let { id } = req.params;
-        if (!mongoose.Types.ObjectID.isvalid("id")) {
-            return res.status(404).json({
+        if (!mongoose.Types.ObjectID.isValid(id)) {
+            return res.status(400).json({
                 message: "id is not valid"
             })
         }
-        else {
-            return res.status(400).json({
+        if (!await todo_model.findOne({ _id: id })) {
+            return res.status(404).json({
                 message: "id not found"
             })
         }
-        let delete_id = { _id: ObjectID('id') }
-        let delete_data = await todo_model.deleteOne(delete_id);
-        if (delete_data.deletedCount) {
+        let delete_data = await todo_model.deleteOne({ _id: id });
+        if (delete_data.deletedCount === 1) {
             return res.status(200).json({
                 success: true,
                 message: "data deleted successfully"
@@ -104,10 +105,51 @@ app.delete("/delete-dataOne/:id", async (req, res) => {
     catch (err) {
         console.log("internal server error (server side delete-dataOne)");
         res.status(500).json({
-            err:err
+            err: err,
+            message: err.message
         })
     }
 })
+
+app.put("/update-dataOne/:id", async (req, res) => {
+    try {
+        let { name, email, number, dob, age } = req.body;
+
+        let details = { name, email, number, dob, age };
+        let { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                message: "id is not valid"
+            })
+        }
+        if (!await todo_model.findOne({ _id: id })) {
+            return res.status(404).json({
+                message: "id not found"
+            })
+        }
+        let update_data = await todo_model.updateOne({ _id: id }, { $set: details })
+        if (update_data.modifiedCount === 0) {
+            return res.status(200).json({
+                success: true,
+                message: "data already present"
+            })
+        }
+        else {
+            return res.status(200).json({
+                success: true,
+                message: "data updated successfully"
+            })
+        }
+    }
+    catch (err) {
+        console.log("internal server error (server side update-dataOne)");
+        return res.status(500).json({
+            err: err,
+            message: err.message
+        })
+    }
+})
+
 // server start function
 async function start_server() {
     await start_todo();
