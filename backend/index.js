@@ -36,12 +36,12 @@ app.post("/insert-dataOne", async (req, res) => {
                 message: "new user added successfully"
             })
         }
-        else {
-            return res.status(410).json({
-                success: false,
-                message: "user not added"
-            })
-        }
+        // else {
+        //     return res.status(410).json({
+        //         success: false,
+        //         message: "new user not added"
+        //     })
+        // }
     }
     catch (err) {
         console.log("internal server error (server side read-dataAll)");
@@ -55,7 +55,7 @@ app.post("/insert-dataOne", async (req, res) => {
 app.get("/read-dataAll", async (req, res) => {
     try {
         let user_data = await todo_model.find();
-        if (user_data.length <= 0) {
+        if (user_data.length === 0) {
             return res.status(404).json({
                 message: "user not found"
             })

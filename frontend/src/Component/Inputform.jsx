@@ -1,6 +1,10 @@
+// library import
 import React from 'react'
 import styles from "./Inputform.module.css"
 import { useState } from 'react'
+
+// component import
+import Databox from './Databox'
 
 const Inputform = () => {
 
@@ -21,11 +25,22 @@ const Inputform = () => {
     const onsubmit = async () => {
         try{
             let res = await axios.post("http://localhost:3000/insert-dataOne",input);
+            if (res.data.success){
+                alert(res.data.message);
+                console.log(res.data);
+            }
         }
         catch(err){
-            
+            if (err.response){
+                alert(`${err.response.data.message}, new user not added`);
+                console.log("client side insert-dataOne err.response");
+                console.log(err.response);
+            }
+            else{
+                alert("server given no response")
+                console.log(err);
+            }
         }
-
     }
 
     return (
@@ -58,6 +73,7 @@ const Inputform = () => {
                     <button>Submit</button>
                 </div>
             </form>
+            <Databox setinput={setinput}/>
         </>
     )
 }
