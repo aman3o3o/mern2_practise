@@ -7,10 +7,12 @@ require("dotenv").config();
 app.use(express.json());
 
 // file imports
-const { start_todo } = require("./db_connection/todo_dbconnection.js");
-const { todo_model } = require("./model/todo_model.js");
+const start_todo  = require("./db_connection/todo_dbconnection.js");
+const todo_model = require("./model/todo_model.js");
+const start_signup  = require("./db_connection/signup_dbconnection.js");
+const signup_model = require("./model/signup_model.js");
 
-// routes
+// todo api
 app.post("/insert-dataOne", async (req, res) => {
     try {
         let { name, email, number, dob, age } = req.body;
@@ -150,9 +152,13 @@ app.put("/update-dataOne/:id", async (req, res) => {
     }
 })
 
+// signup api
+app.post("")
+
 // server start function
 async function start_server() {
     await start_todo();
+    start_signup();
     app.listen(process.env.PORT, () => {
         console.log(`app is listening at port ${process.env.PORT}`);
     })
