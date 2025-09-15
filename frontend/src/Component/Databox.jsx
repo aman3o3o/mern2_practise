@@ -18,7 +18,7 @@ const Databox = ({ setinput }) => {
 
     useEffect(async () => {
         try {
-            let res = await axios.get("http://localhost:3000/read-dataAll");
+            let res = await axios.get("http://localhost:3000/todo/read-dataAll");
             if (res.data.success) {
                 setuserdata(res.data.user_data);
             }

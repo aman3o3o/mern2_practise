@@ -24,7 +24,7 @@ const Inputform = () => {
 
     const onsubmit = async () => {
         try{
-            let res = await axios.post("http://localhost:3000/insert-dataOne",input);
+            let res = await axios.post("http://localhost:3000/todo/insert-dataOne",input);
             if (res.data.success){
                 alert(res.data.message);
                 console.log(res.data);
