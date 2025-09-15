@@ -9,11 +9,13 @@ app.use(express.json());
 app.use(cors());
 
 // file imports
-const { start_todo } = require("./db_connection/todo_dbconnection.js");
-const { todo_model } = require("./model/todo_model.js");
+const start_todo  = require("./db_connection/todo_dbconnection.js");
+const todo_model = require("./model/todo_model.js");
+const start_signup  = require("./db_connection/signup_dbconnection.js");
+const signup_model = require("./model/signup_model.js");
 
-// routes
-app.post("/insert-dataOne", async (req, res) => {
+// todo api
+app.post("/todo/insert-dataOne", async (req, res) => {
     try {
         let { name, email, number, dob, age } = req.body;
 
@@ -54,7 +56,7 @@ app.post("/insert-dataOne", async (req, res) => {
     }
 })
 
-app.get("/read-dataAll", async (req, res) => {
+app.get("/todo/read-dataAll", async (req, res) => {
     try {
         let user_data = await todo_model.find();
         if (user_data.length === 0) {
@@ -78,7 +80,7 @@ app.get("/read-dataAll", async (req, res) => {
     }
 })
 
-app.delete("/delete-dataOne/:id", async (req, res) => {
+app.delete("/todo/delete-dataOne/:id", async (req, res) => {
     try {
         let { id } = req.params;
         // if (!mongoose.Types.ObjectID.isValid(id)) {
@@ -113,7 +115,7 @@ app.delete("/delete-dataOne/:id", async (req, res) => {
     }
 })
 
-app.put("/update-dataOne/:id", async (req, res) => {
+app.put("/todo/update-dataOne/:id", async (req, res) => {
     try {
         let { name, email, number, dob, age } = req.body;
 
@@ -152,9 +154,40 @@ app.put("/update-dataOne/:id", async (req, res) => {
     }
 })
 
-// server start function
+// signup api -----------------------------------------------
+
+app.post("/signup/insert-dataOne",async (req,res)=>{
+    try{
+        let {name,email} = req.body;
+        let dup_email = signup_model.find({email});
+        if (!dup_email.length===0){
+            return res.status(409).json({
+                message : "email is already exist, new user not added"
+            })
+        }
+        let details = {name,email};
+        let new_user = await new signup_model.insertOne(details);
+        new_user.save();
+        if (new_user){
+            res.status(200).json({
+                success:true,
+                message : "new user added successfully"
+            })
+        }
+    }
+    catch(err){
+        console.log("signup/insert-dataOne error - ");
+        console.log(err);
+        res.status(500).json({
+            message : err.message
+        })
+    }
+})
+
+// server start function -----------------------------------------
 async function start_server() {
     await start_todo();
+    start_signup();
     app.listen(process.env.PORT, () => {
         console.log(`app is listening at port ${process.env.PORT}`);
     })
