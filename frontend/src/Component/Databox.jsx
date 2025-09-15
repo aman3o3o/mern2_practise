@@ -13,7 +13,7 @@ const Databox = ({ setinput, fetchdata, tododata }) => {
 
     const ondelete = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/delete-dataOne/${id}`)
+            let res = await axios.put(`http://localhost:3000/todo/delete-dataOne/${id}`)
             if (res.data.success) {
                 alert(res.data.message);
                 fetchdata();

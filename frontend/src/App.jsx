@@ -12,18 +12,15 @@ import RefreshHandler from './Component/RefreshHandler'
 
 const App = () => {
 
-<<<<<<< HEAD
-=======
   const [isauthenticated, setisauthenticated] = useState(localStorage.getItem('token'));
 
->>>>>>> 8b09ac0663f30f978fc1000cdd9019f29810ad34
   return (
     <>
     {isauthenticated ? <RefreshHandler/> : null}
       <Routes>
         <Route path="/" element={isauthenticated ? <Navigate to = "/data"/> : <Navigate to="/login" />} />
-        <Route path="/login" element={<Loginform />} />
-        <Route path="/signup" element={<Signupform />} />
+        <Route path="/login" element={<Loginform setisauthenticated={setisauthenticated}/>} />
+        <Route path="/signup" element={<Signupform setisauthenticated={setisauthenticated}/>} />
         <Route path="/data" element={isauthenticated ? <Data /> : <Error />} />
         <Route path="*" element={<WrongRoute/>}/>
       </Routes>

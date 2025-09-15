@@ -1,31 +1,70 @@
 import React from 'react'
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from "axios"
 
-const Signupform = () => {
+const Signupform = ({ setisauthenticated }) => {
+
+    let navigate = useNavigate();
 
     const [signup, setsignup] = useState({
-        name : "",
-        email : ""
+        name: "",
+        email: "",
+        password: ""
     })
 
     const typing = (e) => {
-        let copy = {...signup};
-        copy[e.target.name]=e.target.value;
+        let copy = { ...signup };
+        copy[e.target.name] = e.target.value;
         setsignup(copy);
+    }
+
+    const logout = (e) => {
+        localStorage.clear();
+        setTimeout(() => {
+            setisauthenticated(false);
+            navigate("/login");
+        }, 2000)
+    }
+
+    const onsubmit = () => {
+        try {
+            let res = axios.post("/signup/insert-dataOne", signup);
+            if (res.data.success) {
+                alert(res.data.message);
+                navigate("/login");
+            }
+        }
+        catch (err) {
+            if (err.response) {
+                console.log("signuppage (/signup/insert-dataOne) err.response - ");
+                console.log(err.response);
+                alert(err.response.data.name);
+            }
+            else{
+                console.log("server gave no response - signuppage (/signup/insert-dataOne)");
+            }
+        }
     }
     return (
         <>
-            <form className='signupform_container'>
+            <form className='signupform_container' onSubmit={onsubmit}>
                 <div>
-                    <label>Name : <input name="name" placeholder="enter name" required value={signup.name} onInput={typing}/>
+                    <label>Name : <input name="name" placeholder="enter name" required value={signup.name} onInput={typing} />
                     </label>
                 </div>
                 <div>
                     <label htmlFor='email'>Email : </label>
-                    <input name="email" id="email" placeholder="enter email" required value={signup.email} onInput={typing}/>
+                    <input name="email" id="email" placeholder="enter email" required value={signup.email} onInput={typing} />
+                </div>
+                <div>
+                    <label htmlFor='password'>Password : </label>
+                    <input name="password" id="password" placeholder="enter password" required value={signup.password} onInput={typing} />
                 </div>
                 <button>Register</button>
             </form>
+            <button onClick={logout}>Logout</button>
+            <div>Already have account? -- <Link to="/login">Login here</Link></div>
         </>
     )
 }

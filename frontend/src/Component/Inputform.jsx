@@ -2,6 +2,7 @@
 import React from 'react'
 import styles from "./Inputform.module.css"
 import { useState } from 'react'
+import axios from "axios"
 
 // component import
 import Databox from './Databox'
@@ -21,7 +22,7 @@ const Inputform = () => {
 
     const fetchdata = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/read-dataAll");
+            let res = await axios.get("http://localhost:3000/todo/read-dataAll");
             if (res.data.success) {
                 settododata(res.data.user_data);
             }
@@ -49,7 +50,7 @@ const Inputform = () => {
         e.preventDefault();
         if (input.id) {
             try {
-                let res = await axios.put(`http://localhost:3000/update-dataOne/${input.id}`, input);
+                let res = await axios.put(`http://localhost:3000/todo/update-dataOne/${input.id}`, input);
                 if (res.data.success) {
                     alert(res.data.message);
                     fetchdata();
@@ -69,7 +70,7 @@ const Inputform = () => {
         }
         else {
             try {
-                let res = await axios.post("http://localhost:3000/insert-dataOne", input);
+                let res = await axios.post("http://localhost:3000/todo/insert-dataOne", input);
                 if (res.data.success) {
                     alert(res.data.message);
                     fetchdata();

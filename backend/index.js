@@ -9,10 +9,11 @@ app.use(express.json());
 app.use(cors());
 
 // file imports
-const start_todo  = require("./db_connection/todo_dbconnection.js");
+const start_todo = require("./db_connection/todo_dbconnection.js");
 const todo_model = require("./model/todo_model.js");
-const start_signup  = require("./db_connection/signup_dbconnection.js");
+const start_signup = require("./db_connection/signup_dbconnection.js");
 const signup_model = require("./model/signup_model.js");
+const {joi_signup_schema} = require("./joi_validation/joi_validation.js")
 
 // todo api
 app.post("/todo/insert-dataOne", async (req, res) => {
@@ -156,29 +157,58 @@ app.put("/todo/update-dataOne/:id", async (req, res) => {
 
 // signup api -----------------------------------------------
 
-app.post("/signup/insert-dataOne",async (req,res)=>{
-    try{
-        let {name,email} = req.body;
-        let dup_email = signup_model.find({email});
-        if (!dup_email.length===0){
+app.post("/signup/insert-dataOne", async (req, res) => {
+    try {
+        await joi_signup_schema.validateAsync(req.body,{abortEarly : false});
+        let { name, email, password} = req.body;
+        let dup_email = signup_model.find({ email });
+        if (!dup_email.length === 0) {
             return res.status(409).json({
-                message : "email is already exist, new user not added"
+                message: "email is already exist, new user not added"
             })
         }
-        let details = {name,email};
+        let details = { name, email, password};
         let new_user = await new signup_model.insertOne(details);
         new_user.save();
-        if (new_user){
+        if (new_user) {
             res.status(200).json({
-                success:true,
-                message : "new user added successfully"
+                success: true,
+                message: "new user added successfully"
             })
         }
     }
-    catch(err){
-        console.log("signup/insert-dataOne error - ");
+    catch (err) {
+        console.log("server side - signup/insert-dataOne error - ");
         console.log(err);
         res.status(500).json({
+            err : err,
+            name : err.name,
+            message: err.message
+        })
+    }
+})
+
+// login_api ----------------------------------------
+app.post("/login/read-dataOne", (req, res) => {
+    try {
+        
+        let { email, password } = req.body;
+        let details = { email, password };
+        let dup = signup_model.find(details);
+        if (dup.length === 0) {
+            return res.status(404).json({
+                message: "email id or password is wrong"
+            })
+        }
+        return res.status(200).json({
+            success: true,
+            message: "congrats, you are logged in"
+        })
+    }
+    catch(err){
+        console.log("server side (/login/read-dataOne) error - ");
+        console.log(err);
+        return res.status(500).json({
             message : err.message
         })
     }
