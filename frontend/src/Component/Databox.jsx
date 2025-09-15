@@ -1,40 +1,36 @@
+// package imports
 import React, { useEffect, useState } from 'react'
 import styles from "./Databox.module.css"
 
-const Databox = ({ setinput }) => {
+// component imports
+import No_data_flag from './No_data_flag'
 
-    const [userdata, setuserdata] = useState([]);
+const Databox = ({ setinput, fetchdata, tododata }) => {
 
-    const onedit = () => {
-        // setinput({
-
-        // })
-        alert("edit mode coming soon");
+    const onedit = (id, name, email, number, age, dob) => {
+        setinput({ name, email, number, age, dob, id});
     }
 
-    const ondelete = () => {
-        alert("delete mode coming soon");
-    }
-
-    useEffect(async () => {
+    const ondelete = async (id) => {
         try {
-            let res = await axios.get("http://localhost:3000/read-dataAll");
+            let res = await axios.put(`http://localhost:3000/delete-dataOne/${id}`)
             if (res.data.success) {
-                setuserdata(res.data.user_data);
+                alert(res.data.message);
+                fetchdata();
             }
         }
         catch (err) {
             if (err.response) {
-                alert(`${err.response.data.message} , data not fetched`);
-                console.log("Databox page useEffect catch error - ");
-                console.log(err);
+                alert(`${err.response.data.message}`);
+                console.log("Databox page ondelete funct err.response - ");
+                console.log(err.response);
             }
             else {
-                console.log("server gave no response at - Databox page useEffect catch");
+                alert("server gave no response at Databox page ondelete func");
                 console.log(err);
             }
         }
-    })
+    }
 
     return (
         <>
@@ -50,7 +46,7 @@ const Databox = ({ setinput }) => {
                         <th className={styles.th}>Action</th>
                     </tr>
 
-                    <tr>
+                    {/* <tr>
                         <td className={styles.td}>Aman Prasad</td>
                         <td className={styles.td}>amanprasad3030@gmail.com</td>
                         <td className={styles.td}>8582884500</td>
@@ -60,13 +56,41 @@ const Databox = ({ setinput }) => {
                             <button className={styles.edit} onClick={onedit}>Edit</button>
                             <button className={styles.delete} onClick={ondelete}>Delete</button>
                         </td>
-                    </tr>
+                    </tr> */}
 
-                    <tr>
-                        {userdata.map((single_document) => {
+                    {tododata.map((data) => {
+                        return (
+                            <tr>
+                                <td className={styles.td}>{data.name}</td>
+                                <td className={styles.td}>{data.email}</td>
+                                <td className={styles.td}>{data.number}</td>
+                                <td className={styles.td}>{data.age}</td>
+                                <td className={styles.td}>{data.dob}</td>
+                                <td className={styles.td}>
+                                    <button className={styles.edit} onClick={()=>{onedit(data._id,data.name,data.email,data.number,data.age,data.dob)}}>Edit</button>
+                                    <button className={styles.delete} onClick={()=>{ondelete(data._id)}}>Delete</button>
+                                </td>
+                            </tr>
+                        );
+                    })}
 
-                        })}
-                    </tr>
+                    {/* {userdata.length === 0 ? <No_data_flag /> : 
+                        userdata.map((data) => {
+                            return (
+                                <tr>
+                                    <td className={styles.td}>{data.name}</td>
+                                    <td className={styles.td}>{data.email}</td>
+                                    <td className={styles.td}>{data.number}</td>
+                                    <td className={styles.td}>{data.age}</td>
+                                    <td className={styles.td}>{data.dob}</td>
+                                    <td className={styles.td}>
+                                        <button className={styles.edit} onClick={() => { onedit(data._id, data.name, data.email, data.number, data.age, data.dob) }}>Edit</button>
+                                        <button className={styles.delete} onClick={() => { ondelete(data._id) }}>Delete</button>
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    } */}
 
                 </table>
             </div>

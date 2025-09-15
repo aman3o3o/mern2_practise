@@ -27,6 +27,10 @@
     background-color: rgb(228, 131, 131);
     margin-top: 10px;
     /* overflow:auto; */
+    min-width:60%;
+    /* flex-direction:column;
+    display:flex;
+    align-items: center; */
 
 }
 

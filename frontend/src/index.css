@@ -9,3 +9,12 @@
 body{
     overflow:hidden;
 }
+.no_data_found{
+    /* width:90%; */
+    height:50px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightblue;
+    color:red;
+}

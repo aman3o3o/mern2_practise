@@ -13,32 +13,78 @@ const Inputform = () => {
         "email": "",
         "number": "",
         "age": "",
-        "dob": ""
+        "dob": "",
+        "id": ""
     })
 
+    const [tododata, settododata] = useState([]);
+
+    const fetchdata = async () => {
+        try {
+            let res = await axios.get("http://localhost:3000/read-dataAll");
+            if (res.data.success) {
+                settododata(res.data.user_data);
+            }
+        }
+        catch (err) {
+            if (err.response) {
+                alert(`${err.response.data.message}`);
+                console.log("inputform.jsx fetchdata function error - ");
+                console.log(err);
+            }
+            else {
+                console.log("server gave no response at inputform.jsx fetchdata function");
+                console.log(err);
+            }
+        }
+    }
+
     const oninput = (e) => {
-        let input_copy = {...input};
-        input_copy[e.target.name]=e.target.value;
+        let input_copy = { ...input };
+        input_copy[e.target.name] = e.target.value;
         setinput(input_copy);
     }
 
-    const onsubmit = async () => {
-        try{
-            let res = await axios.post("http://localhost:3000/insert-dataOne",input);
-            if (res.data.success){
-                alert(res.data.message);
-                console.log(res.data);
+    const onsubmit = async (e) => {
+        e.preventDefault();
+        if (input.id) {
+            try {
+                let res = await axios.put(`http://localhost:3000/update-dataOne/${input.id}`, input);
+                if (res.data.success) {
+                    alert(res.data.message);
+                    fetchdata();
+                }
+            }
+            catch (err) {
+                if (err.response) {
+                    alert(err.response.data.message);
+                    console.log("client side update-dataOne err.response");
+                    console.log(err.response);
+                }
+                else {
+                    console.log("server gave no response");
+                    console.log(err);
+                }
             }
         }
-        catch(err){
-            if (err.response){
-                alert(`${err.response.data.message}, new user not added`);
-                console.log("client side insert-dataOne err.response");
-                console.log(err.response);
+        else {
+            try {
+                let res = await axios.post("http://localhost:3000/insert-dataOne", input);
+                if (res.data.success) {
+                    alert(res.data.message);
+                    fetchdata();
+                }
             }
-            else{
-                alert("server given no response")
-                console.log(err);
+            catch (err) {
+                if (err.response) {
+                    alert(err.response.data.message);
+                    console.log("client side insert-dataOne err.response - ");
+                    console.log(err.response);
+                }
+                else {
+                    alert("server given no response at insert-dataOne")
+                    console.log(err);
+                }
             }
         }
     }
@@ -70,10 +116,10 @@ const Inputform = () => {
                             <input name="dob" placeholder="Enter DOB" value={input.dob} onInput={oninput} required />
                         </div>
                     </div>
-                    <button>Submit</button>
+                    {input.id ? <button>Update</button> : <button>Submit</button>}
                 </div>
             </form>
-            <Databox setinput={setinput}/>
+            <Databox setinput={setinput} fetchdata={fetchdata} tododata={tododata} />
         </>
     )
 }

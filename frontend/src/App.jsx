@@ -2,6 +2,7 @@ import React from 'react'
 import Inputform from './Component/Inputform'
 
 const App = () => {
+
   return (
     <div className='head-container'>
     <Inputform/>
@@ -10,3 +11,4 @@ const App = () => {
 }
 
 export default App
+
