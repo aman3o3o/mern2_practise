@@ -19,14 +19,6 @@ const Signupform = ({ setisauthenticated }) => {
         setsignup(copy);
     }
 
-    const logout = (e) => {
-        localStorage.clear();
-        setTimeout(() => {
-            setisauthenticated(false);
-            navigate("/login");
-        }, 2000)
-    }
-
     const onsubmit = async (e) => {
         e.preventDefault()
         try {
@@ -69,7 +61,6 @@ const Signupform = ({ setisauthenticated }) => {
                 </div>
                 <button>Register</button>
             </form>
-            <button onClick={logout}>Logout</button>
             <div>Already have account? -- <Link to="/login">Login here</Link></div>
         </>
     )

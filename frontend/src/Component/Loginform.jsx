@@ -18,11 +18,12 @@ const Loginform = ({setisauthenticated}) => {
     setlogin(copy);
   }
 
-  const onsubmit = (e) => {
+  const onsubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = axios.post("http://localhost:3000/login/read-dataOne", login);
+      let res = await axios.post("http://localhost:3000/login/read-dataOne", login);
       if (res.data.success) {
+        localStorage.setItem("token",res.data.token);
         alert(res.data.message);
         setTimeout(() => {
           setisauthenticated(true);
@@ -32,14 +33,12 @@ const Loginform = ({setisauthenticated}) => {
     }
     catch(err){
       if(err.response){
-        // console.log("loginform func onsubmit error - ");
-        // console.log(err);
+        console.log("loginform func onsubmit error - ");
+        console.log(err);
         alert(`${err.response.data.name} / ${err.response.data.message}`);
       }
       else{
-        console.log("loginform func onsubmit error - ");
-        console.log(err);
-        alert(`${err.response.data.message} , (for proper detailing check in console)`);
+        console.log("server gave no response at loginpage func onsubmit");
       }
     }
   }

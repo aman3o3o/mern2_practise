@@ -4,6 +4,8 @@ const app = express();
 require("dotenv").config();
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const util = require("util");
 
 //third party middleware
 app.use(express.json());
@@ -14,7 +16,8 @@ const start_todo = require("./db_connection/todo_dbconnection.js");
 const todo_model = require("./model/todo_model.js");
 const start_signup = require("./db_connection/signup_dbconnection.js");
 const signup_model = require("./model/signup_model.js");
-const { joi_signup_schema } = require("./joi_validation/joi_validation.js")
+const { joi_signup_schema } = require("./joi_validation/joi_validation.js");
+const TokenVerify = require("./middleware/TokenVerify.js");
 
 // todo api
 app.post("/todo/insert-dataOne", async (req, res) => {
@@ -157,7 +160,6 @@ app.put("/todo/update-dataOne/:id", async (req, res) => {
 })
 
 // signup api -----------------------------------------------
-
 app.post("/signup/insert-dataOne", async (req, res) => {
     try {
         await joi_signup_schema.validateAsync(req.body, { abortEarly: false });
@@ -198,16 +200,22 @@ app.post("/login/read-dataOne", async (req, res) => {
                 message: "email id or password is wrong"
             })
         }
-        let pass_check = await bcrypt.compare(password, dup[0].encrypt_pass);
+        let pass_check = await bcrypt.compare(password, dup[0].password);
         if (!pass_check) {
             return res.status(404).json({
                 message: "email id or password is wrong"
             })
         }
-        return res.status(200).json({
+        let jwt_promise = util.promisify(jwt.sign);
+        let payload = {name:dup[0].name , email:dup[0].email};
+        let token = jwt_promise(payload,process.env.SECRET_KEY,{expiresIn:'1h'});
+        if (token){
+            return res.status(200).json({
             success: true,
-            message: "congrats, you are logged in"
+            message: "congrats, you are logged in",
+            token:token
         })
+        }
     }
     catch (err) {
         console.log("server side (/login/read-dataOne) error - ");
@@ -217,6 +225,13 @@ app.post("/login/read-dataOne", async (req, res) => {
             name : err.name
         })
     }
+})
+
+// private_route ------------------------------------------------
+app.get("/privateRoute",TokenVerify,(req,res)=>{
+    return res.status(200).json({
+        success : true
+    })
 })
 
 // server start function -----------------------------------------

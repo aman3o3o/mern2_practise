@@ -1,6 +1,6 @@
 import React from 'react'
 import Inputform from './Component/Inputform'
-import Loginform from './Component/Loginform'
+import Loginform from "./Component/Loginform"
 import Signupform from './Component/Signupform'
 import { Routes, Route } from "react-router-dom"
 import { Navigate } from 'react-router-dom'
@@ -12,7 +12,7 @@ import RefreshHandler from './Component/RefreshHandler'
 
 const App = () => {
 
-  const [isauthenticated, setisauthenticated] = useState(localStorage.getItem('token'));
+  const [isauthenticated, setisauthenticated] = useState(localStorage.getItem('token') ? true : false);
 
   return (
     <>
@@ -21,7 +21,7 @@ const App = () => {
         <Route path="/" element={isauthenticated ? <Navigate to = "/data"/> : <Navigate to="/login" />} />
         <Route path="/login" element={<Loginform setisauthenticated={setisauthenticated}/>} />
         <Route path="/signup" element={<Signupform setisauthenticated={setisauthenticated}/>} />
-        <Route path="/data" element={isauthenticated ? <Data /> : <Error />} />
+        <Route path="/data" element={isauthenticated ? <Data token={localStorage.getItem("token")} setisauthenticated={setisauthenticated}/> : <Error />} />
         <Route path="*" element={<WrongRoute/>}/>
       </Routes>
     </>
