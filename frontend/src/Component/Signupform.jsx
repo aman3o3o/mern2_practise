@@ -27,12 +27,18 @@ const Signupform = ({ setisauthenticated }) => {
         }, 2000)
     }
 
-    const onsubmit = () => {
+    const onsubmit = async (e) => {
+        e.preventDefault()
         try {
-            let res = axios.post("/signup/insert-dataOne", signup);
+            let res = await axios.post("http://localhost:3000/signup/insert-dataOne", signup);
             if (res.data.success) {
                 alert(res.data.message);
                 navigate("/login");
+                setsignup({
+                    name: "",
+                    email: "",
+                    password: ""
+                })
             }
         }
         catch (err) {
@@ -41,7 +47,7 @@ const Signupform = ({ setisauthenticated }) => {
                 console.log(err.response);
                 alert(err.response.data.name);
             }
-            else{
+            else {
                 console.log("server gave no response - signuppage (/signup/insert-dataOne)");
             }
         }

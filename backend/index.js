@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 //third party middleware
 app.use(express.json());
@@ -13,7 +14,7 @@ const start_todo = require("./db_connection/todo_dbconnection.js");
 const todo_model = require("./model/todo_model.js");
 const start_signup = require("./db_connection/signup_dbconnection.js");
 const signup_model = require("./model/signup_model.js");
-const {joi_signup_schema} = require("./joi_validation/joi_validation.js")
+const { joi_signup_schema } = require("./joi_validation/joi_validation.js")
 
 // todo api
 app.post("/todo/insert-dataOne", async (req, res) => {
@@ -159,17 +160,15 @@ app.put("/todo/update-dataOne/:id", async (req, res) => {
 
 app.post("/signup/insert-dataOne", async (req, res) => {
     try {
-        await joi_signup_schema.validateAsync(req.body,{abortEarly : false});
-        let { name, email, password} = req.body;
-        let dup_email = signup_model.find({ email });
-        if (!dup_email.length === 0) {
-            return res.status(409).json({
-                message: "email is already exist, new user not added"
-            })
-        }
-        let details = { name, email, password};
-        let new_user = await new signup_model.insertOne(details);
-        new_user.save();
+        await joi_signup_schema.validateAsync(req.body, { abortEarly: false });
+        console.log(".................");
+        let { name, email, password } = req.body;
+
+        password = await bcrypt.hash(password, 10);
+
+        let details = { name, email, password };
+        let new_user = await new signup_model(details);
+        await new_user.save();
         if (new_user) {
             res.status(200).json({
                 success: true,
@@ -181,21 +180,26 @@ app.post("/signup/insert-dataOne", async (req, res) => {
         console.log("server side - signup/insert-dataOne error - ");
         console.log(err);
         res.status(500).json({
-            err : err,
-            name : err.name,
+            err: err,
+            name: err.name,
             message: err.message
         })
     }
 })
 
 // login_api ----------------------------------------
-app.post("/login/read-dataOne", (req, res) => {
+app.post("/login/read-dataOne", async (req, res) => {
     try {
-        
+
         let { email, password } = req.body;
-        let details = { email, password };
-        let dup = signup_model.find(details);
+        let dup = await signup_model.find({ email });
         if (dup.length === 0) {
+            return res.status(404).json({
+                message: "email id or password is wrong"
+            })
+        }
+        let pass_check = await bcrypt.compare(password, dup[0].encrypt_pass);
+        if (!pass_check) {
             return res.status(404).json({
                 message: "email id or password is wrong"
             })
@@ -205,11 +209,12 @@ app.post("/login/read-dataOne", (req, res) => {
             message: "congrats, you are logged in"
         })
     }
-    catch(err){
+    catch (err) {
         console.log("server side (/login/read-dataOne) error - ");
         console.log(err);
         return res.status(500).json({
-            message : err.message
+            message: err.message,
+            name : err.name
         })
     }
 })

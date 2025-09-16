@@ -18,9 +18,10 @@ const Loginform = ({setisauthenticated}) => {
     setlogin(copy);
   }
 
-  const onsubmit = () => {
+  const onsubmit = (e) => {
+    e.preventDefault();
     try {
-      let res = axios.post("/login/read-dataOne", login);
+      let res = axios.post("http://localhost:3000/login/read-dataOne", login);
       if (res.data.success) {
         alert(res.data.message);
         setTimeout(() => {
@@ -33,7 +34,7 @@ const Loginform = ({setisauthenticated}) => {
       if(err.response){
         // console.log("loginform func onsubmit error - ");
         // console.log(err);
-        alert(`${err.response.data.message}`);
+        alert(`${err.response.data.name} / ${err.response.data.message}`);
       }
       else{
         console.log("loginform func onsubmit error - ");
