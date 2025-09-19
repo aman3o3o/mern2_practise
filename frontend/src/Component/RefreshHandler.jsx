@@ -7,7 +7,7 @@ const RefreshHandler = () => {
 
     useEffect(() => {
 
-        if (["/", "/login", "/signup"].includes(location.pathname)) {
+        if (["/login", "/signup"].includes(location.pathname)) {
             navigate("/data");
         }
 

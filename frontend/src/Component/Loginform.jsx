@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from "react"
 import { useNavigate , Link} from 'react-router-dom'
 import axios from "axios"
+import { toast } from 'react-toastify'
 
 const Loginform = ({setisauthenticated}) => {
 
@@ -24,21 +25,24 @@ const Loginform = ({setisauthenticated}) => {
       let res = await axios.post("http://localhost:3000/login/read-dataOne", login);
       if (res.data.success) {
         localStorage.setItem("token",res.data.token);
-        alert(res.data.message);
         setTimeout(() => {
           setisauthenticated(true);
           navigate("/data");
         })
+        // alert(res.data.message);
+        toast.success(res.data.message);
       }
     }
     catch(err){
       if(err.response){
         console.log("loginform func onsubmit error - ");
         console.log(err);
-        alert(`${err.response.data.name} / ${err.response.data.message}`);
+        // alert(`${err.response.data.name} / ${err.response.data.message}`);
+        toast.error(`${err.response.data.name} / ${err.response.data.message}`);
       }
       else{
         console.log("server gave no response at loginpage func onsubmit");
+        toast.error("server gave no response at loginpage func onsubmit");
       }
     }
   }

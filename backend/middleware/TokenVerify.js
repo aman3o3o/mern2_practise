@@ -1,17 +1,18 @@
 const jwt = require("jsonwebtoken");
 const util = require("util");
 
-const token_verify = (req,res,next) => {
-    try{
-        let token = req.headers.Authorization;
-        let decoded = jwt.promisify(token,process.env_SECRET_KEY);
-            next();
-        }
-    catch(err){
+const token_verify = async (req, res, next) => {
+    try {
+        let token = req.headers.authorization;
+        let jwt_verify_promise = util.promisify(jwt.verify)
+        await jwt_verify_promise(token, process.env.SECRET_KEY);
+        next();
+    }
+    catch (err) {
         return res.status(401).json({
-            err:err,
-            message:err.message,
-            name:err.name
+            err: err,
+            message: err.message,
+            name: err.name
         })
     }
 }

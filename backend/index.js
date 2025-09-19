@@ -39,12 +39,10 @@ app.post("/todo/insert-dataOne", async (req, res) => {
         let details = { name, email, number, dob, age };
         const new_user = new todo_model(details);
         await new_user.save();
-        if (new_user) {
-            return res.status(200).json({
-                success: true,
-                message: "new user added successfully"
-            })
-        }
+        return res.status(200).json({
+            success: true,
+            message: "new user added successfully"
+        })
         // else {
         //     return res.status(410).json({
         //         success: false,
@@ -163,7 +161,6 @@ app.put("/todo/update-dataOne/:id", async (req, res) => {
 app.post("/signup/insert-dataOne", async (req, res) => {
     try {
         await joi_signup_schema.validateAsync(req.body, { abortEarly: false });
-        console.log(".................");
         let { name, email, password } = req.body;
 
         password = await bcrypt.hash(password, 10);
@@ -171,12 +168,10 @@ app.post("/signup/insert-dataOne", async (req, res) => {
         let details = { name, email, password };
         let new_user = await new signup_model(details);
         await new_user.save();
-        if (new_user) {
-            res.status(200).json({
-                success: true,
-                message: "new user added successfully"
-            })
-        }
+        res.status(200).json({
+            success: true,
+            message: "new user added successfully"
+        })
     }
     catch (err) {
         console.log("server side - signup/insert-dataOne error - ");
@@ -207,30 +202,28 @@ app.post("/login/read-dataOne", async (req, res) => {
             })
         }
         let jwt_promise = util.promisify(jwt.sign);
-        let payload = {name:dup[0].name , email:dup[0].email};
-        let token = jwt_promise(payload,process.env.SECRET_KEY,{expiresIn:'1h'});
-        if (token){
-            return res.status(200).json({
+        let payload = { name: dup[0].name, email: dup[0].email };
+        let token = await jwt_promise(payload, process.env.SECRET_KEY, { expiresIn: '1h' });
+        return res.status(200).json({
             success: true,
             message: "congrats, you are logged in",
-            token:token
+            token: token
         })
-        }
     }
     catch (err) {
         console.log("server side (/login/read-dataOne) error - ");
         console.log(err);
         return res.status(500).json({
             message: err.message,
-            name : err.name
+            name: err.name
         })
     }
 })
 
 // private_route ------------------------------------------------
-app.get("/privateRoute",TokenVerify,(req,res)=>{
+app.post("/privateRoute", TokenVerify, (req, res) => {
     return res.status(200).json({
-        success : true
+        success: true
     })
 })
 

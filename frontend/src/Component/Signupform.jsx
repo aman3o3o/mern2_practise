@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
+import { toast } from 'react-toastify'
 
 const Signupform = ({ setisauthenticated }) => {
 
@@ -24,23 +25,28 @@ const Signupform = ({ setisauthenticated }) => {
         try {
             let res = await axios.post("http://localhost:3000/signup/insert-dataOne", signup);
             if (res.data.success) {
-                alert(res.data.message);
-                navigate("/login");
-                setsignup({
-                    name: "",
-                    email: "",
-                    password: ""
-                })
+                setTimeout(() => {
+                    navigate("/login");
+                    setsignup({
+                        name: "",
+                        email: "",
+                        password: ""
+                    })
+                }, 3000);
+                // alert(res.data.message);
+                toast.success(res.data.message);
             }
         }
         catch (err) {
             if (err.response) {
                 console.log("signuppage (/signup/insert-dataOne) err.response - ");
                 console.log(err.response);
-                alert(err.response.data.name);
+                // alert(err.response.data.name);
+                toast.error(err.response.data.name);
             }
             else {
                 console.log("server gave no response - signuppage (/signup/insert-dataOne)");
+                toast.error("server gave no response - signuppage (/signup/insert-dataOne)");
             }
         }
     }
