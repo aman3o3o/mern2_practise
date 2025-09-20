@@ -1,11 +1,12 @@
 // library import
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from "./Inputform.module.css"
 import { useState } from 'react'
 import axios from "axios"
 
 // component import
 import Databox from './Databox'
+import { toast } from 'react-toastify'
 
 const Inputform = () => {
 
@@ -89,6 +90,19 @@ const Inputform = () => {
             }
         }
     }
+
+    useEffect(() => {
+        const fetchingData = async () => {
+            try{
+                await fetchdata();
+                toast.success("Data fetched successfully");
+            }
+            catch(err){
+                toast.warn("Data not fetched");
+            }
+        }
+        fetchingData();
+    },[])
 
     return (
         <>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Inputform from './Component/Inputform'
 import Loginform from "./Component/Loginform"
 import Signupform from './Component/Signupform'
@@ -11,6 +11,8 @@ import WrongRoute from "./Component/WrongRoute"
 import RefreshHandler from './Component/RefreshHandler'
 
 const App = () => {
+
+  console.log("App page");
 
   const [isauthenticated, setisauthenticated] = useState(localStorage.getItem('token') ? true : false);
 

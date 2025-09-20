@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 
 const Loginform = ({setisauthenticated}) => {
 
+  console.log("Loginform page");
+
   let navigate = useNavigate();
 
   const [login, setlogin] = useState({

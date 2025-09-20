@@ -2,8 +2,11 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
+import Inputform from './Inputform';
 
 const Data = ({ token, setisauthenticated }) => {
+
+  console.log("Data page");
 
   const [flag, setflag] = useState(false);
 
@@ -20,6 +23,7 @@ const Data = ({ token, setisauthenticated }) => {
   }
 
   useEffect(() => {
+    console.log("Data page useEffect");
     const tokenchecking = async () => {
       try {
         const res = await axios.post("http://localhost:3000/privateRoute", {}, { headers: { Authorization: token } });
@@ -45,7 +49,8 @@ const Data = ({ token, setisauthenticated }) => {
     <>
       {flag ?
         <>
-          <div>Original Data</div>
+          {/* <div>Original Data</div> */}
+          <Inputform/>
           <button onClick={logout}>Logout</button>
         </>
         : <>

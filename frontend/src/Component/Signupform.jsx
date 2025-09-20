@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 
 const Signupform = ({ setisauthenticated }) => {
 
+    console.log("Signupform page");
+
     let navigate = useNavigate();
 
     const [signup, setsignup] = useState({

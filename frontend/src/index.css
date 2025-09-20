@@ -1,20 +1,6 @@
+@import "tailwindcss";
 *{
     margin:0px;
     padding:0px;
     box-sizing:border-box;
-}
-.head-container{
-    display:flex;
-}
-body{
-    overflow:hidden;
-}
-.no_data_found{
-    /* width:90%; */
-    height:50px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    background-color: lightblue;
-    color:red;
 }

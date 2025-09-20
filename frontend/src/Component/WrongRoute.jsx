@@ -4,9 +4,12 @@ import { toast } from 'react-toastify';
 
 const WrongRoute = () => {
 
+  console.log("WrongRoute page");
+
   let navigate = useNavigate();
 
   useEffect(() => {
+    console.log("WrongRoute useEffect 1");
     toast.warn("Route not found", {
       position: "top-right",
       autoClose: 2000
@@ -21,6 +24,7 @@ const WrongRoute = () => {
   })
 
   useEffect(() => {
+    console.log("WrongRoute useEffect 2");
     setTimeout(() => {
       navigate("/login")
     }, 2000);
