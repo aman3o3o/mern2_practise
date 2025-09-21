@@ -114,33 +114,32 @@ const Inputform = () => {
 
     return (
         <>
-            <form onSubmit={onsubmit}>
-                <div className={styles.container}>
-                    <div className="heading">Input Table</div>
-                    <div className="inputtable">
-                        <div>
-                            <label htmlFor='name'>Name :</label>
-                            <input name="name" placeholder="Enter Name" value={input.name} onInput={oninput} required />
-                        </div>
-                        <div>
-                            <label htmlFor='email'>Email :</label>
-                            <input name="email" placeholder="Enter Email" value={input.email} onInput={oninput} required />
-                        </div>
-                        <div>
-                            <label htmlFor='number'>Number :</label>
-                            <input name="number" placeholder="Enter Number" value={input.number} onInput={oninput} required />
-                        </div>
-                        <div>
-                            <label htmlFor='age'>Age :</label>
-                            <input name="age" placeholder="Enter Age" value={input.age} onInput={oninput} required />
-                        </div>
-                        <div>
-                            <label htmlFor='dob'>Dob :</label>
-                            <input name="dob" placeholder="Enter DOB" value={input.dob} onInput={oninput} required />
-                        </div>
+
+            <form onSubmit={onsubmit} className='bg-red-200 flex-4 flex flex-col items-center justify-evenly'>
+                <div className='bg-pink-200 text-center'>Input Table</div>
+                <div className="bg-cyan-200 w-[80%] h-[60%] flex flex-col justify-evenly p-[20px]">
+                    <div className=''>
+                        <label className='' htmlFor='name'>Name : </label>
+                        <input name="name" placeholder="Enter Name" value={input.name} onInput={oninput} required className='py-[5px] px-[10px]'/>
                     </div>
-                    {input.id ? <button>Update</button> : <button>Submit</button>}
+                    <div className=''>
+                        <label htmlFor='email'>Email : </label>
+                        <input name="email" placeholder="Enter Email" value={input.email} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                    </div>
+                    <div className=''>
+                        <label htmlFor='number'>Number : </label>
+                        <input name="number" placeholder="Enter Number" value={input.number} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                    </div>
+                    <div className=''>
+                        <label htmlFor='age'>Age : </label>
+                        <input name="age" placeholder="Enter Age" value={input.age} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                    </div>
+                    <div className=''>
+                        <label htmlFor='dob'>Dob : </label>
+                        <input name="dob" placeholder="Enter DOB" value={input.dob} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                    </div>
                 </div>
+                {input.id ? <button>Update</button> : <button>Submit</button>}
             </form>
             <Databox setinput={setinput} fetchdata={fetchdata} tododata={tododata} />
         </>

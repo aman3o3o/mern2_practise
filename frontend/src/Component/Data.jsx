@@ -50,11 +50,13 @@ const Data = ({ token, setisauthenticated }) => {
       {flag ?
         <>
           {/* <div>Original Data</div> */}
-          <Inputform/>
-          <button onClick={logout}>Logout</button>
+          <div className='flex h-screen'>
+            <Inputform />
+          </div>
+          {/* <button onClick={logout}>Logout</button> */}
         </>
         : <>
-          <div>UnAuthorized</div>
+          <div>UnAuthorized, Please Login to continue</div>
           <button onClick={logout}>Logout</button>
         </>}
     </>
