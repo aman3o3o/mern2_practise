@@ -1,6 +1,7 @@
 // package imports
 import React, { useEffect, useState } from 'react'
 import styles from "./Databox.module.css"
+import axios from "axios"
 
 // component imports
 import No_data_flag from './No_data_flag'
@@ -16,7 +17,7 @@ const Databox = ({ setinput, fetchdata, tododata }) => {
             let res = await axios.delete(`http://localhost:3000/todo/delete-dataOne/${id}`)
             if (res.data.success) {
                 alert(res.data.message);
-                fetchdata();
+                await fetchdata();
             }
         }
         catch (err) {

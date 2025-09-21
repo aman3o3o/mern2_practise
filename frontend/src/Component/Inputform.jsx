@@ -54,7 +54,15 @@ const Inputform = () => {
                 let res = await axios.put(`http://localhost:3000/todo/update-dataOne/${input.id}`, input);
                 if (res.data.success) {
                     alert(res.data.message);
-                    fetchdata();
+                    setinput({
+                        "name": "",
+                        "email": "",
+                        "number": "",
+                        "age": "",
+                        "dob": "",
+                        "id": ""
+                    })
+                    await fetchdata();
                 }
             }
             catch (err) {
@@ -93,16 +101,16 @@ const Inputform = () => {
 
     useEffect(() => {
         const fetchingData = async () => {
-            try{
+            try {
                 await fetchdata();
                 toast.success("Data fetched successfully");
             }
-            catch(err){
+            catch (err) {
                 toast.warn("Data not fetched");
             }
         }
         fetchingData();
-    },[])
+    }, [])
 
     return (
         <>

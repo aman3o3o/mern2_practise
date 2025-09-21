@@ -6,6 +6,7 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const util = require("util");
+const mongoose = require("mongoose");
 
 //third party middleware
 app.use(express.json());
@@ -86,16 +87,17 @@ app.get("/todo/read-dataAll", async (req, res) => {
 app.delete("/todo/delete-dataOne/:id", async (req, res) => {
     try {
         let { id } = req.params;
-        // if (!mongoose.Types.ObjectID.isValid(id)) {
-        //     return res.status(400).json({
-        //         message: "id is not valid, data not deleted"
-        //     })
-        // }
-        // if (!await todo_model.findOne({ _id: id })) {
-        //     return res.status(404).json({
-        //         message: "id not found, data not deleted"
-        //     })
-        // }
+        console.log(id);
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                message: "id is not valid, data not deleted"
+            })
+        }
+        if (!await todo_model.findOne({ _id: id })) {
+            return res.status(404).json({
+                message: "id not found, data not deleted"
+            })
+        }
         let delete_data = await todo_model.deleteOne({ _id: id });
         if (delete_data.deletedCount === 1) {
             return res.status(200).json({
@@ -103,11 +105,11 @@ app.delete("/todo/delete-dataOne/:id", async (req, res) => {
                 message: "data deleted successfully"
             })
         }
-        // else {
-        //     return res.status(500).json({
-        //         message: "data not deleted"
-        //     })
-        // }
+        else {
+            return res.status(500).json({
+                message: "data not deleted"
+            })
+        }
     }
     catch (err) {
         console.log("internal server error (server side delete-dataOne)");
