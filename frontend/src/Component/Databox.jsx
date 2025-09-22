@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./Databox.module.css"
 import axios from "axios"
+import { toast } from 'react-toastify'
 
 // component imports
 import No_data_flag from './No_data_flag'
 
-const Databox = ({ setinput, fetchdata, tododata }) => {
+const Databox = ({ setinput, fetchdata, tododata, setisauthenticated}) => {
 
     const logout = () => {
         localStorage.clear();
@@ -45,12 +46,12 @@ const Databox = ({ setinput, fetchdata, tododata }) => {
 
     return (
         <>
-            <div className='bg-yellow-200 flex-6 min-w-0 flex flex-col items-center justify-evenly'>
-                <h2>Data Table</h2>
-                <h2>Welcome Aman , here is your Data</h2>
-                <div className='h-[60%] bg-amber-950 overflow-hidden hover:overflow-auto'>
-                    <table className='bg-red-500 border-separate border-spacing-[10px]'>
-                        <tr>
+            <div className='bg-gray-50 flex-6 min-w-0 flex flex-col items-center justify-evenly'>
+                <h2 className='relative top-[30px] bg-[#c56c37] rounded px-[5px]'>Data Table</h2>
+                <h2 className='relative top-[10px] bg-[#e26113] px-[5px]'>Welcome Aman , here is your Data</h2>
+                <div className='h-[60%] bg-white overflow-hidden hover:overflow-auto p-[10px]'>
+                    <table className='bg-gray-100 border-separate border-spacing-[10px]'>
+                        <tr className='bg-blue-300'>
                             <th className="border-2 text-center">Name</th>
                             <th className="border-2 text-center">Email</th>
                             <th className="border-2 text-center">Number</th>
@@ -58,134 +59,6 @@ const Databox = ({ setinput, fetchdata, tododata }) => {
                             <th className="border-2 text-center">Dob</th>
                             <th className="border-2 text-center">Action</th>
                         </tr>
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
-
-
-                        <tr>
-                        <td className={styles.td}>Aman Prasad</td>
-                        <td className={styles.td}>amanprasad3030@gmail.com</td>
-                        <td className={styles.td}>8582884500</td>
-                        <td className={styles.td}>21</td>
-                        <td className={styles.td}>30-11-2001</td>
-                        <td className={styles.td}>
-                            <button className={styles.edit} onClick={onedit}>Edit</button>
-                            <button className={styles.delete} onClick={ondelete}>Delete</button>
-                        </td>
-                    </tr>
 
 
                         <tr>
@@ -223,8 +96,8 @@ const Databox = ({ setinput, fetchdata, tododata }) => {
                                     <td className="border-2 text-center px-[5px]">{data.age}</td>
                                     <td className="border-2 text-center px-[5px]">{data.dob}</td>
                                     <td className="border-2 text-center px-[5px]">
-                                        <button className="mr-[5px]" onClick={() => { onedit(data._id, data.name, data.email, data.number, data.age, data.dob) }}>Edit</button>
-                                        <button className="ml-[5px]" onClick={() => { ondelete(data._id) }}>Delete</button>
+                                        <button className="hover:bg-black hover:text-blue-900 px-[5px]" onClick={() => { onedit(data._id, data.name, data.email, data.number, data.age, data.dob) }}>Edit</button>
+                                        <button className="hover:text-[#5a0000] hover:bg-black px-[5px]" onClick={() => { ondelete(data._id) }}>Delete</button>
                                     </td>
                                 </tr>
                             );

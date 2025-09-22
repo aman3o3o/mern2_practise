@@ -8,7 +8,7 @@ import axios from "axios"
 import Databox from './Databox'
 import { toast } from 'react-toastify'
 
-const Inputform = () => {
+const Inputform = ({setisauthenticated}) => {
 
     const [input, setinput] = useState({
         "name": "",
@@ -115,33 +115,33 @@ const Inputform = () => {
     return (
         <>
 
-            <form onSubmit={onsubmit} className='bg-red-200 flex-4 flex flex-col items-center justify-evenly'>
-                <div className='bg-pink-200 text-center'>Input Table</div>
-                <div className="bg-cyan-200 w-[80%] h-[60%] flex flex-col justify-evenly p-[20px]">
+            <form onSubmit={onsubmit} className='flex-4 flex flex-col items-center justify-evenly'>
+                <div className='bg-[#c56c37] text-center relative top-[30px] rounded-[5px] px-[5px]'>Input Table</div>
+                <div className="bg-gray-100 w-[80%] h-[60%] flex flex-col justify-evenly p-[20px]">
                     <div className=''>
                         <label className='' htmlFor='name'>Name : </label>
-                        <input name="name" placeholder="Enter Name" value={input.name} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                        <input name="name" placeholder="Enter Name" value={input.name} onInput={oninput} required className='py-[5px] px-[10px] appearance-auto outline'/>
                     </div>
                     <div className=''>
                         <label htmlFor='email'>Email : </label>
-                        <input name="email" placeholder="Enter Email" value={input.email} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                        <input name="email" placeholder="Enter Email" value={input.email} onInput={oninput} required className='py-[5px] px-[10px] outline'/>
                     </div>
                     <div className=''>
                         <label htmlFor='number'>Number : </label>
-                        <input name="number" placeholder="Enter Number" value={input.number} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                        <input name="number" placeholder="Enter Number" value={input.number} onInput={oninput} required className='py-[5px] px-[10px] outline'/>
                     </div>
                     <div className=''>
                         <label htmlFor='age'>Age : </label>
-                        <input name="age" placeholder="Enter Age" value={input.age} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                        <input name="age" placeholder="Enter Age" value={input.age} onInput={oninput} required className='py-[5px] px-[10px] outline'/>
                     </div>
                     <div className=''>
                         <label htmlFor='dob'>Dob : </label>
-                        <input name="dob" placeholder="Enter DOB" value={input.dob} onInput={oninput} required className='py-[5px] px-[10px]'/>
+                        <input name="dob" placeholder="Enter DOB" value={input.dob} onInput={oninput} required className='py-[5px] px-[10px] outline'/>
                     </div>
                 </div>
-                {input.id ? <button>Update</button> : <button>Submit</button>}
+                {input.id ? <button className='bg-green-400'>Update</button> : <button className='bg-[#28a745]'>Submit</button>}
             </form>
-            <Databox setinput={setinput} fetchdata={fetchdata} tododata={tododata} />
+            <Databox setinput={setinput} fetchdata={fetchdata} tododata={tododata} setisauthenticated={setisauthenticated}/>
         </>
     )
 }

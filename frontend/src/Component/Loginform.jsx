@@ -1,10 +1,10 @@
 import React from 'react'
 import { useState } from "react"
-import { useNavigate , Link} from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from "axios"
 import { toast } from 'react-toastify'
 
-const Loginform = ({setisauthenticated}) => {
+const Loginform = ({ setisauthenticated }) => {
 
   console.log("Loginform page");
 
@@ -26,7 +26,7 @@ const Loginform = ({setisauthenticated}) => {
     try {
       let res = await axios.post("http://localhost:3000/login/read-dataOne", login);
       if (res.data.success) {
-        localStorage.setItem("token",res.data.token);
+        localStorage.setItem("token", res.data.token);
         setTimeout(() => {
           setisauthenticated(true);
           navigate("/data");
@@ -35,14 +35,14 @@ const Loginform = ({setisauthenticated}) => {
         toast.success(res.data.message);
       }
     }
-    catch(err){
-      if(err.response){
+    catch (err) {
+      if (err.response) {
         console.log("loginform func onsubmit error - ");
         console.log(err);
         // alert(`${err.response.data.name} / ${err.response.data.message}`);
         toast.error(`${err.response.data.name} / ${err.response.data.message}`);
       }
-      else{
+      else {
         console.log("server gave no response at loginpage func onsubmit");
         toast.error("server gave no response at loginpage func onsubmit");
       }
@@ -51,18 +51,22 @@ const Loginform = ({setisauthenticated}) => {
 
   return (
     <>
-      <form className='loginform_container' onSubmit={onsubmit}>
-        <div>
-          <label>Email : <input name="email" placeholder="enter email" required onInput={typing} value={login.name} />
-          </label>
+      <div className='h-screen bg-pink-500'>
+        <div className='bg-red-900 h-[100%]'>
+          <form className='bg-yellow-200 h-[60%] flex flex-col justify-center items-center' onSubmit={onsubmit}>
+            <div className='bg-red-900'>
+              <label>Email : <input name="email" placeholder="enter email" required onInput={typing} value={login.name} />
+              </label>
+            </div>
+            <div className='bg-pink-900'>
+              <label htmlFor='password'>Password : </label>
+              <input name="password" id="password" placeholder="enter password" required onInput={typing} value={login.password} />
+            </div>
+            <button className='bg-yellow-900'>Login</button>
+          </form>
+          <div>Don't have account -- <Link to="/signup">Register here</Link></div>
         </div>
-        <div>
-          <label htmlFor='password'>Password : </label>
-          <input name="password" id="password" placeholder="enter password" required onInput={typing} value={login.password} />
-        </div>
-        <button>Login</button>
-      </form>
-      <div>Don't have account -- <Link to="/signup">Register here</Link></div>
+      </div>
     </>
   )
 }
