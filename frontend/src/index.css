@@ -3,6 +3,12 @@
     box-sizing : border-box;
 }
 
+/* @theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
+} */
+
 /* Chrome, Edge, Safari */
 ::-webkit-scrollbar {
   width: 8px;
@@ -30,3 +36,4 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
 } */
+

@@ -51,21 +51,22 @@ const Loginform = ({ setisauthenticated }) => {
 
   return (
     <>
-      <div className='h-screen bg-pink-500'>
-        <div className='bg-red-900 h-[100%]'>
-          <form className='bg-yellow-200 h-[60%] flex flex-col justify-center items-center' onSubmit={onsubmit}>
-            <div className='bg-red-900'>
+      <div className='bg-red-500 w-screen h-screen flex flex-col justify-center items-center'>
+        <form className='bg-yellow-500 sm:w-[40%] sm:h-[50%] flex flex-col justify-evenly items-center whitespace-nowrap' onSubmit={onsubmit}>
+          <div className='h-full md:w-[60%] bg-amber-950 flex flex-col justify-evenly py-[10px] items-center'>
+            <div className='bg-pink-500 self-start w-full'>
               <label>Email : <input name="email" placeholder="enter email" required onInput={typing} value={login.name} />
               </label>
             </div>
-            <div className='bg-pink-900'>
+            <div className='bg-orange-500 self-start w-full'>
               <label htmlFor='password'>Password : </label>
               <input name="password" id="password" placeholder="enter password" required onInput={typing} value={login.password} />
             </div>
-            <button className='bg-yellow-900'>Login</button>
-          </form>
-          <div>Don't have account -- <Link to="/signup">Register here</Link></div>
-        </div>
+            <button className=''>Login</button>
+            <div className='whitespace-nowrap'>Don't have an account? -- <Link to="/signup">Register here</Link></div>
+          </div>
+        </form>
+        {/* <div className='whitespace-nowrap'>Don't have account -- <Link to="/signup">Register here</Link></div> */}
       </div>
     </>
   )

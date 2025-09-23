@@ -114,10 +114,11 @@ const Inputform = ({setisauthenticated}) => {
 
     return (
         <>
-
-            <form onSubmit={onsubmit} className='flex-4 flex flex-col items-center justify-evenly'>
-                <div className='bg-[#c56c37] text-center relative top-[30px] rounded-[5px] px-[5px]'>Input Table</div>
-                <div className="bg-gray-100 w-[80%] h-[60%] flex flex-col justify-evenly p-[20px]">
+            {/* a - flex-4 flex flex-col items-center justify-evenly */}
+            <form onSubmit={onsubmit} className='a w-full md:w-4/12 flex flex-col items-center justify-start p-4'>
+                <div className='bg-[#c56c37] text-center rounded-[5px] px-[5px]'>Input Table</div>
+                {/* b - bg-gray-100 w-[80%] h-[60%] flex flex-col justify-evenly p-[20px] */}
+                <div className="b bg-gray-100 w-full md:w-[80%] h-auto flex flex-col p-4 space-y-4 mt-4">
                     <div className=''>
                         <label className='' htmlFor='name'>Name : </label>
                         <input name="name" placeholder="Enter Name" value={input.name} onInput={oninput} required className='py-[5px] px-[10px] appearance-auto outline'/>
@@ -139,7 +140,8 @@ const Inputform = ({setisauthenticated}) => {
                         <input name="dob" placeholder="Enter DOB" value={input.dob} onInput={oninput} required className='py-[5px] px-[10px] outline'/>
                     </div>
                 </div>
-                {input.id ? <button className='bg-green-400'>Update</button> : <button className='bg-[#28a745]'>Submit</button>}
+                {/* m - bg-green-400 , n - 28a745 */}
+                {input.id ? <button className='m bg-green-400 mt-4 px-4 py-2 rounded w-full md:w-auto'>Update</button> : <button className='n bg-[#28a745] mt-4 px-4 py-2 rounded w-full md:w-auto'>Submit</button>}
             </form>
             <Databox setinput={setinput} fetchdata={fetchdata} tododata={tododata} setisauthenticated={setisauthenticated}/>
         </>
