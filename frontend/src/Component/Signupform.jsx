@@ -54,7 +54,7 @@ const Signupform = ({ setisauthenticated }) => {
     }
     return (
         <>
-            <form className='signupform_container' onSubmit={onsubmit}>
+            <form className='' onSubmit={onsubmit}>
                 <div>
                     <label>Name : <input name="name" placeholder="enter name" required value={signup.name} onInput={typing} />
                     </label>
