@@ -54,25 +54,23 @@ const Signupform = ({ setisauthenticated }) => {
     }
     return (
         <>
-            <div className="w-screen h-screen bg-teal-600">
-                <div className='bg-red-500 w-full h-full flex flex-col justify-center items-center p-8 sm:p-4'>
-                    <form className='w-auto ssm:h-auto p-2 bg-yellow-300 flex flex-col gap-y-8 items-center ssm:w-[80%] md:w-[60%] sm:p-8' onSubmit={onsubmit}>
-                        <div className='bg-red-200 ssm:self-auto w-full'>
-                            <label>Name : <input name="name" placeholder="enter name" required value={signup.name} onInput={typing} />
-                            </label>
+            <div className='min-h-screen bg-blue-200 flex justify-center items-center'>
+                <div className='w-full max-w-sm md:max-w-md bg-red-300 m-6'>
+                    <h3 className='text-xl text-center mt-4'>Signup-Form</h3>
+                    <div className='my-8 w-[60%] sm:w-[50%] mx-auto rounded-full bg-pink-800'><img className="" src="https://as2.ftcdn.net/v2/jpg/15/83/83/09/1000_F_1583830902_EuC9gxLST0zxInbM8k1c8jesIQ0FRqEq.jpg" alt="" /></div>
+                    <form className='flex flex-col items-center bg-red-500' onSubmit={onsubmit}>
+                        <div className='bg-blue-400 mb-5 rounded-full py-1'>
+                            <input className="px-4 outline-none bg-transparent placeholder:text-center" name="name" placeholder="enter name" required value={signup.name} onInput={typing} />
                         </div>
-                        <div className='bg-red-200 ssm:self-auto w-full'>
-                            <label htmlFor='email'>Email : </label>
-                            <input name="email" id="email" placeholder="enter email" required value={signup.email} onInput={typing} />
+                        <div className='mb-5 rounded-full bg-blue-400 py-1'>
+                            <input className="px-4 outline-none bg-transparent placeholder:text-center" name="email" id="email" placeholder="enter email" required value={signup.email} onInput={typing} />
                         </div>
-                        <div className='bg-red-200 ssm:self-auto w-full'>
-                            <label htmlFor='password'>Password : </label>
-                            <input name="password" id="password" placeholder="enter password" required value={signup.password} onInput={typing} />
+                        <div className='rounded-full bg-blue-400 py-1'>
+                            <input className="px-4 outline-none bg-transparent placeholder:text-center" name="password" id="password" placeholder="enter password" required value={signup.password} onInput={typing} />
                         </div>
-                        <button className='bg-red-200'>Register</button>
-                        <div className='bg-red-200'><img className="max-w-full mx-auto" src="https://as2.ftcdn.net/v2/jpg/15/83/83/09/1000_F_1583830902_EuC9gxLST0zxInbM8k1c8jesIQ0FRqEq.jpg"/></div>
+                        <button className='cursor-pointer bg-orange-400 my-10 self-stretch mx-4'>Register</button>
+                        <div className='bg-violet-300 mb-4 text-[10px]'>Already have account? -- <Link to="/login">Login here</Link></div>
                     </form>
-                    <div className='bg-pink-400'>Already have account? -- <Link to="/login">Login here</Link></div>
                 </div>
             </div>
         </>
