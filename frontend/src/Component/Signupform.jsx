@@ -54,22 +54,27 @@ const Signupform = ({ setisauthenticated }) => {
     }
     return (
         <>
-            <form className='' onSubmit={onsubmit}>
-                <div>
-                    <label>Name : <input name="name" placeholder="enter name" required value={signup.name} onInput={typing} />
-                    </label>
+            <div className="w-screen h-screen bg-teal-600">
+                <div className='bg-red-500 w-full h-full flex flex-col justify-center items-center p-8 sm:p-4'>
+                    <form className='w-auto ssm:h-auto p-2 bg-yellow-300 flex flex-col gap-y-8 items-center ssm:w-[80%] md:w-[60%] sm:p-8' onSubmit={onsubmit}>
+                        <div className='bg-red-200 ssm:self-auto w-full'>
+                            <label>Name : <input name="name" placeholder="enter name" required value={signup.name} onInput={typing} />
+                            </label>
+                        </div>
+                        <div className='bg-red-200 ssm:self-auto w-full'>
+                            <label htmlFor='email'>Email : </label>
+                            <input name="email" id="email" placeholder="enter email" required value={signup.email} onInput={typing} />
+                        </div>
+                        <div className='bg-red-200 ssm:self-auto w-full'>
+                            <label htmlFor='password'>Password : </label>
+                            <input name="password" id="password" placeholder="enter password" required value={signup.password} onInput={typing} />
+                        </div>
+                        <button className='bg-red-200'>Register</button>
+                        <div className='bg-red-200'><img className="max-w-full mx-auto" src="https://as2.ftcdn.net/v2/jpg/15/83/83/09/1000_F_1583830902_EuC9gxLST0zxInbM8k1c8jesIQ0FRqEq.jpg"/></div>
+                    </form>
+                    <div className='bg-pink-400'>Already have account? -- <Link to="/login">Login here</Link></div>
                 </div>
-                <div>
-                    <label htmlFor='email'>Email : </label>
-                    <input name="email" id="email" placeholder="enter email" required value={signup.email} onInput={typing} />
-                </div>
-                <div>
-                    <label htmlFor='password'>Password : </label>
-                    <input name="password" id="password" placeholder="enter password" required value={signup.password} onInput={typing} />
-                </div>
-                <button>Register</button>
-            </form>
-            <div>Already have account? -- <Link to="/login">Login here</Link></div>
+            </div>
         </>
     )
 }
