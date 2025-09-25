@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 import { toast } from 'react-toastify'
+import signup_img from "../images/signup.png"
 
 const Signupform = ({ setisauthenticated }) => {
 
@@ -54,25 +55,50 @@ const Signupform = ({ setisauthenticated }) => {
     }
     return (
         <>
-            <div className='min-h-screen bg-blue-200 flex justify-center items-center'>
-                <div className='w-full max-w-sm md:max-w-md bg-red-300 m-6'>
-                    <h3 className='text-xl text-center mt-4'>Signup-Form</h3>
-                    <div className='my-8 w-[60%] sm:w-[50%] mx-auto rounded-full bg-pink-800'><img className="" src="https://as2.ftcdn.net/v2/jpg/15/83/83/09/1000_F_1583830902_EuC9gxLST0zxInbM8k1c8jesIQ0FRqEq.jpg" alt="" /></div>
-                    <form className='flex flex-col items-center bg-red-500' onSubmit={onsubmit}>
-                        <div className='bg-blue-400 mb-5 rounded-full py-1'>
-                            <input className="px-4 outline-none bg-transparent placeholder:text-center" name="name" placeholder="enter name" required value={signup.name} onInput={typing} />
-                        </div>
-                        <div className='mb-5 rounded-full bg-blue-400 py-1'>
-                            <input className="px-4 outline-none bg-transparent placeholder:text-center" name="email" id="email" placeholder="enter email" required value={signup.email} onInput={typing} />
-                        </div>
-                        <div className='rounded-full bg-blue-400 py-1'>
-                            <input className="px-4 outline-none bg-transparent placeholder:text-center" name="password" id="password" placeholder="enter password" required value={signup.password} onInput={typing} />
-                        </div>
-                        <button className='cursor-pointer bg-orange-400 my-10 self-stretch mx-4'>Register</button>
-                        <div className='bg-violet-300 mb-4 text-[10px]'>Already have account? -- <Link to="/login">Login here</Link></div>
-                    </form>
-                </div>
+            <div className="w-screen min-h-screen flex justify-center items-center bg-red-200">
+                <form
+                    className="w-full max-w-sm bg-white flex flex-col items-center p-4 space-y-4"
+                    onSubmit={onsubmit}
+                >
+                    <h1 className="text-xl">Signup-Form</h1>
+
+                    <div className="w-1/2 rounded-2xl">
+                        <img src={signup_img} alt="" className="w-full rounded-2xl" />
+                    </div>
+
+                    <input
+                        className="py-2 px-4 rounded-2xl w-2/3 bg-blue-100"
+                        name="name"
+                        placeholder="Enter name"
+                        required
+                        value={signup.name}
+                        onInput={typing}
+                    />
+                    <input
+                        className="py-2 px-4 rounded-2xl w-2/3 bg-blue-100"
+                        name="email"
+                        placeholder="Enter email"
+                        required
+                        value={signup.email}
+                        onInput={typing}
+                    />
+                    <input
+                        className="py-2 px-4 rounded-2xl w-2/3 bg-blue-100"
+                        name="password"
+                        placeholder="Enter password"
+                        required
+                        value={signup.password}
+                        onInput={typing}
+                    />
+
+                    <button className="bg-blue-500 text-white py-2 rounded w-2/3">Register</button>
+
+                    <p className="text-sm">
+                        Already have an account? <Link to="/login" className="text-blue-600">Login here</Link>
+                    </p>
+                </form>
             </div>
+
         </>
     )
 }
