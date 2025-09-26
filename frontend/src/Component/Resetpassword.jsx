@@ -1,4 +1,6 @@
 import React from 'react'
+import axios from "axios"
+import useState from "react"
 
 const Resetpassword = () => {
 
@@ -19,10 +21,10 @@ const Resetpassword = () => {
         }
         catch(err){
     }
-
+    }
     return (
         <>
-            <form onSubmit={}>
+            <form onSubmit={resetpassword}>
                 <input name="password" placeholder='enter password' value={formData.password} onInput={oninput}/>
                 <input placeholder="confirm password" value={formData.confirmpass} onInput={oninput}/>
                 <button>Submit</button>

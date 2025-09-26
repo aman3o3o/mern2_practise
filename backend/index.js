@@ -17,7 +17,7 @@ const start_todo = require("./db_connection/todo_dbconnection.js");
 const todo_model = require("./model/todo_model.js");
 const start_signup = require("./db_connection/signup_dbconnection.js");
 const signup_model = require("./model/signup_model.js");
-const { joi_signup_schema , joi_resetpassword_schema} = require("./joi_validation/joi_validation.js");
+const { joi_signup_schema, joi_resetpassword_schema } = require("./joi_validation/joi_validation.js");
 const TokenVerify = require("./middleware/TokenVerify.js");
 
 // todo api
@@ -230,29 +230,29 @@ app.post("/privateRoute", TokenVerify, (req, res) => {
 })
 
 // forgot password api ------------------------------------------
-app.post("/forgotpassword",async (req,res)=>{
-    try{
+app.post("/forgotpassword", async (req, res) => {
+    try {
         const email = req.body;
         const user = await signup_model.findOne(email);
-        if(!user){
+        if (!user) {
             res.status(404).json({
-                message : "email not found",
-                status:"404"
+                message: "email not found",
+                status: "404"
             })
         }
         res.status(200).json({
-            success : true,
-            message : "password reset link has been shared in your registered email account"
+            success: true,
+            message: "password reset link has been shared in your registered email account"
         })
         const resetToken = crypto.randomBytes(20).toString('hex');
         user.resetpasswordtoken = crypto.createHash("sha256").update(resettoken).digest("hex");
-        user.resetpasswordexpire = Date.now() + 15*60*1000;
+        user.resetpasswordexpire = Date.now() + 15 * 60 * 1000;
         await user.save();
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message : err.message,
-            status : err.status
+            message: err.message,
+            status: err.status
         })
         console.log("forgotpassword api error - ");
         console.log(err);
@@ -260,16 +260,27 @@ app.post("/forgotpassword",async (req,res)=>{
 })
 
 // reset password api -------------------------------------------
-app.post("/resetpassword/:resettoken",(req,res) => {
-    try{
+app.post("/resetpassword", async (req, res) => {
+    try {
         await joi_resetpassword_schema.validateAsync(req.body);
         let password = req.body;
-        let resettoken = req.params;
-        let user = signup_model.findOne({resetpasswordtoken:resettoken , resetpasswordexpire : {$gt : }});
-        if(!user){
+        // let resettoken = req.params;
+        // let user = signup_model.findOne({resetpasswordtoken:resettoken , resetpasswordexpire : {$gt : }});
+        // if(!user){
 
-        }
+        // }
+        res.status(200).json({
+            success: true,
+            password
+        })
 
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            err : err,
+            message : err.message
+        })
     }
 })
 
