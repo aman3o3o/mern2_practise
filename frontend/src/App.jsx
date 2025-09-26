@@ -9,6 +9,7 @@ import Data from "./Component/Data"
 import { useState } from "react"
 import WrongRoute from "./Component/WrongRoute"
 import RefreshHandler from './Component/RefreshHandler'
+import ForgotPassword from './Component/ForgotPassword'
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
 
   return (
     <>
+    <ForgotPassword/>
     {isauthenticated ? <RefreshHandler/> : null}
       <Routes>
         <Route path="/" element={isauthenticated ? <Navigate to = "/data"/> : <Navigate to="/login" />} />

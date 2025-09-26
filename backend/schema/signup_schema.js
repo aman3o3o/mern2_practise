@@ -13,6 +13,12 @@ const signup_schema = mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    resetpasswordtoken : {
+        type:String
+    },
+    resetpasswordexpire : {
+        type:Date
     }
 })
 

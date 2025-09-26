@@ -16,4 +16,11 @@ const joi_signup_schema = joi.object({
     password : joi.string().pattern(/[0-9]+/).min(5)
 })
 
-module.exports = {joi_todo_schema,joi_signup_schema};
+const joi_resetpassword_schema = joi.object({
+    password : joi.string().pattern(/[0-9]+/),
+    confirmpass : joi.valid(joi.ref("password").required().messages({
+        "any.one":"password not matched"
+    }))
+})
+
+module.exports = {joi_todo_schema,joi_signup_schema,joi_resetpassword_schema};
