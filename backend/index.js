@@ -7,6 +7,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const util = require("util");
 const mongoose = require("mongoose");
+const crypt = require("crypto");
+const nodemailer = require("nodemailer");
 
 //third party middleware
 app.use(express.json());
@@ -232,22 +234,43 @@ app.post("/privateRoute", TokenVerify, (req, res) => {
 // forgot password api ------------------------------------------
 app.post("/forgotpassword", async (req, res) => {
     try {
-        const email = req.body;
-        const user = await signup_model.findOne(email);
+        const user = await signup_model.findOne(req.body);
         if (!user) {
-            res.status(404).json({
+            return res.status(404).json({
                 message: "email not found",
                 status: "404"
             })
         }
-        res.status(200).json({
-            success: true,
-            message: "password reset link has been shared in your registered email account"
-        })
         const resetToken = crypto.randomBytes(20).toString('hex');
         user.resetpasswordtoken = crypto.createHash("sha256").update(resettoken).digest("hex");
         user.resetpasswordexpire = Date.now() + 15 * 60 * 1000;
         await user.save();
+
+        let resetpasswordlink = `http://localhost:${process.env.REACT_PORT}/resetpassword/${resetToken}`;
+
+        let transporter = nodemailer.createTransport({
+            service:"gmail",
+            auth:{
+                user:"amanpd14150518@gmail.com",
+                pass : "nljk vdba qcos pboz"
+            }
+        })
+
+        let receiver = {
+            from : "amanpd3030@gmail.com",
+            to : user.email,
+            subject : "PASSWORD RESET LINK",
+            text : `Hey ${user.name}, please reset your password with the given link within 15 minutes. please NOTE on completion of the time, the reset link will not work`,
+            html : `<p>Click here to reset your password -> </p> <a href="${resetpasswordlink}">${resetpasswordlink}</a>`
+        }
+
+        await transporter.sendMail(receiver)
+
+        res.status(200).json({
+            success: true,
+            message: "password reset link has been shared in your registered email account"
+        })
+
     }
     catch (err) {
         res.status(500).json({
@@ -260,20 +283,28 @@ app.post("/forgotpassword", async (req, res) => {
 })
 
 // reset password api -------------------------------------------
-app.post("/resetpassword", async (req, res) => {
+app.post("/resetpassword/:resettoken", async (req, res) => {
     try {
         await joi_resetpassword_schema.validateAsync(req.body);
-        let password = req.body;
-        // let resettoken = req.params;
-        // let user = signup_model.findOne({resetpasswordtoken:resettoken , resetpasswordexpire : {$gt : }});
-        // if(!user){
-
-        // }
+        let {password} = req.body;
+        let {resettoken} = req.params;
+        let user = signup_model.findOne({resetpasswordtoken:resettoken , resetpasswordtokenexpire : {$gt : Date.now()}});
+        if(!user){
+            return res.status(400).json({
+                message : "token is isvalid / notfound"
+            })
+        }
+        if(user && user.resetpasswordtokenused){
+            return res.status(410).json({
+                message : "token already used"
+            })
+        }
+        user.password = password;
         res.status(200).json({
-            success: true,
-            password
+            success : true,
+            message : "password has been reset successfully"
         })
-
+        user.resetpasswordtokenused = true;
     }
     catch (err) {
         res.status(500).json({
@@ -294,3 +325,32 @@ async function start_server() {
 }
 
 start_server();
+
+const nodemailer = require("nodemailer");
+
+// 1. Transporter banate hain
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "yourgmail@gmail.com",
+    pass: "your-app-password" // Gmail ke liye App Password use karna padta hai
+  }
+});
+
+// 2. Mail options
+const mailOptions = {
+  from: "yourgmail@gmail.com",
+  to: "receiver@example.com",
+  subject: "Password Reset Link",
+  text: "Yeh tumhara password reset link hai",
+  html: "<b>Click here to reset your password</b>"
+};
+
+// 3. Mail send
+transporter.sendMail(mailOptions, (err, info) => {
+  if (err) {
+    console.error("Error:", err);
+  } else {
+    console.log("Email sent:", info.response);
+  }
+});
